@@ -2,9 +2,10 @@ version: 2
 jobs:
   build:
     docker:
-      - image: debian:stretch
+      - image: jhoglin/gradle-node
     steps:
       - checkout
       - run:
           name: Greeting
-          command: echo Ninjas in the building.
+          command: node -v
+          command: npm -v
