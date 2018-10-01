@@ -2,7 +2,6 @@
 
 echo "Persisting version"
 
-
 git config --global user.email $(git --no-pager show -s --format='%ae' HEAD)
 git config --global user.name $(git --no-pager show -s --format='%ae' HEAD)
 git status
