@@ -2,10 +2,22 @@ version: 2
 jobs:
   build:
     docker:
-      - image: jhoglin/gradle-node
+      - image: circleci/node:stretch
+    environment:
+      GITHUB_TOKEN: "e9eb3ff59cbf68101948ba2fe06a7d350bfbfae9"
     steps:
       - checkout
       - run:
-          name: Greeting
-          command: node -v
-          command: npm -v
+          name: Run build and package
+          command: |
+            ls -l
+            git
+            which git
+            npm install
+            npm run build
+      - run:
+          name: Create GitHub release
+          command: |
+            scripts/install-ghr.sh
+            VERSION=$(cat version)
+            ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} ./artifacts/
