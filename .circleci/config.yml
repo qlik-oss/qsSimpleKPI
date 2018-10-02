@@ -14,8 +14,6 @@ jobs:
   build:
     docker:
       - image: circleci/node:stretch
-    requires:
-      - bumpVersion
     steps:
       - checkout
       - run:
@@ -24,26 +22,21 @@ jobs:
             npm install
             npm run build
           persist_to_workspace:
-            root: /tmp/workspace
+            root: .
             paths:
               - deploy
   deploy:
     docker:
       - image: circleci/node:stretch
-    requires:
-      - build
-    branches:
-      only:
-        - master
-        - build_pipeline
     steps:
       - checkout
       - run:
           name: Create GitHub release
           attach_workspace:
-            at: /tmp/workspace
+            at: .
           command: |
-            ls -l deploy
+            pwd
+            ls -l
             scripts/install-ghr.sh
             MAJOR=$(grep -i 'MAJOR' VERSION  | cut -f2 -d'=')
             MINOR=$(grep -i 'MINOR' VERSION  | cut -f2 -d'=')
@@ -54,12 +47,6 @@ jobs:
   persistVersion:
     docker:
       - image: circleci/node:stretch
-    requires:
-      - deploy
-    branches:
-      only:
-        - master
-        - build_pipeline
     steps:
       - checkout
       - run:
@@ -68,3 +55,32 @@ jobs:
             at: /tmp/workspace
           command: |
             ./scripts/persistVersion.sh
+workflows:
+  version: 2
+  master_flow:
+    jobs:
+      - bumpVersion
+      - build:
+          requires:
+            - bumpVersion
+          filters:
+            branches:
+              only:
+                - master
+                - build_pipeline
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              only:
+                - master
+                - build_pipeline
+      - persistVersion:
+          requires:
+            - deploy
+          filters:
+            branches:
+              only:
+                - master
+                - build_pipeline
