@@ -1,9 +1,23 @@
 version: 2
 jobs:
+  bumpVersion:
+    docker:
+      - image: circleci/node:stretch
+    branches:
+      only:
+        - master
+        - build_pipeline
+    steps:
+      - checkout
+      - run:
+          name: Bump version
+          command: |
+            ./scripts/bumpVersion.sh
+          persist_to_workspace:
+            root: /tmp/workspace
   build:
     docker:
       - image: circleci/node:stretch
-
     steps:
       - checkout
       - run:
@@ -15,12 +29,15 @@ jobs:
             root: /tmp/workspace
             paths:
               - deploy
-      - run:
-          name: Bump version
-          command: |
-            ./scripts/bumpVersion.sh
-          persist_to_workspace:
-            root: /tmp/workspace
+  deploy:
+    docker:
+      - image: circleci/node:stretch
+    branches:
+      only:
+        - master
+        - build_pipeline
+    steps:
+      - checkout
       - run:
           name: Create GitHub release
           attach_workspace:
@@ -34,10 +51,18 @@ jobs:
             VERSION="${MAJOR}.${MINOR}.${PATCH}"
             echo ${VERSION}
             $HOME/bin/ghr -t ${ghoauth} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} ./deploy/qsSimpleKPI.zip
+  persistVersion:
+    docker:
+      - image: circleci/node:stretch
+    branches:
+      only:
+        - master
+        - build_pipeline
+    steps:
+      - checkout
       - run:
           name: Persist new version
           attach_workspace:
             at: /tmp/workspace
           command: |
             ./scripts/persistVersion.sh
-
