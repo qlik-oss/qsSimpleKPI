@@ -3,10 +3,6 @@ jobs:
   bumpVersion:
     docker:
       - image: circleci/node:stretch
-    branches:
-      only:
-        - master
-        - build_pipeline
     steps:
       - checkout
       - run:
@@ -18,6 +14,8 @@ jobs:
   build:
     docker:
       - image: circleci/node:stretch
+    requires:
+      - bumpVersion
     steps:
       - checkout
       - run:
@@ -32,6 +30,8 @@ jobs:
   deploy:
     docker:
       - image: circleci/node:stretch
+    requires:
+      - build
     branches:
       only:
         - master
@@ -54,6 +54,8 @@ jobs:
   persistVersion:
     docker:
       - image: circleci/node:stretch
+    requires:
+      - deploy
     branches:
       only:
         - master
