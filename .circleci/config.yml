@@ -13,36 +13,29 @@ jobs:
       - run:
           name: Build and package
           command: |
-            mkdir -p workspace
-            echo "Hello, world!" > echo-output
             npm install
-            ./scripts/bumpVersion.sh
+            ./scripts/bump-version.sh
             npm run build
-          persist_to_workspace:
-            root: ~/qsSimpleKPI
-            paths:
-              - VERSION
-              - deploy
-              - echo-output
+      - persist_to_workspace:
+          root: ~/qsSimpleKPI
+          paths:
+            - VERSION
+            - deploy
   deploy:
     <<: *defaults
     steps:
       - checkout
+      - attach_workspace:
+          at: ~/qsSimpleKPI
       - run:
-          name: Create GitHub release
-          attach_workspace:
-            at: ~/qsSimpleKPI
           command: |
             pwd
-            ls -l
-            MAJOR=$(grep -i 'MAJOR' VERSION  | cut -f2 -d'=')
-            MINOR=$(grep -i 'MINOR' VERSION  | cut -f2 -d'=')
-            PATCH=$(grep -i 'PATCH' VERSION  | cut -f2 -d'=')
-            VERSION="${MAJOR}.${MINOR}.${PATCH}"
-            echo ${VERSION}
+            echo "Zip contents:"
+            ls -l deploy
+            VERSION="$(scripts/print-version.sh)"
             scripts/install-ghr.sh
             $HOME/bin/ghr -t ${ghoauth} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} ./deploy/qsSimpleKPI.zip
-            ./scripts/persistVersion.sh
+            ./scripts/persist-version.sh
 workflows:
   version: 2
   master_flow:
