@@ -1,84 +1,56 @@
 version: 2
+
+defaults: &defaults
+  working_directory: ~/qsSimpleKPI
+  docker:
+    - image: circleci/node:stretch
+
 jobs:
-  bumpVersion:
-    docker:
-      - image: circleci/node:stretch
-    steps:
-      - checkout
-      - run:
-          name: Bump version
-          command: |
-            ./scripts/bumpVersion.sh
-          persist_to_workspace:
-            root: /tmp/workspace
   build:
-    docker:
-      - image: circleci/node:stretch
+    <<: *defaults
     steps:
       - checkout
       - run:
           name: Build and package
           command: |
+            mkdir -p workspace
+            echo "Hello, world!" > echo-output
             npm install
+            ./scripts/bumpVersion.sh
             npm run build
           persist_to_workspace:
-            root: .
+            root: ~/qsSimpleKPI
             paths:
+              - VERSION
               - deploy
+              - echo-output
   deploy:
-    docker:
-      - image: circleci/node:stretch
+    <<: *defaults
     steps:
       - checkout
       - run:
           name: Create GitHub release
           attach_workspace:
-            at: .
+            at: ~/qsSimpleKPI
           command: |
             pwd
             ls -l
-            scripts/install-ghr.sh
             MAJOR=$(grep -i 'MAJOR' VERSION  | cut -f2 -d'=')
             MINOR=$(grep -i 'MINOR' VERSION  | cut -f2 -d'=')
             PATCH=$(grep -i 'PATCH' VERSION  | cut -f2 -d'=')
             VERSION="${MAJOR}.${MINOR}.${PATCH}"
             echo ${VERSION}
+            scripts/install-ghr.sh
             $HOME/bin/ghr -t ${ghoauth} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} ./deploy/qsSimpleKPI.zip
-  persistVersion:
-    docker:
-      - image: circleci/node:stretch
-    steps:
-      - checkout
-      - run:
-          name: Persist new version
-          attach_workspace:
-            at: /tmp/workspace
-          command: |
             ./scripts/persistVersion.sh
 workflows:
   version: 2
   master_flow:
     jobs:
-      - bumpVersion
-      - build:
-          requires:
-            - bumpVersion
-          filters:
-            branches:
-              only:
-                - master
-                - build_pipeline
+      - build
       - deploy:
           requires:
             - build
-          filters:
-            branches:
-              only:
-                - master
-                - build_pipeline
-      - persistVersion:
-          requires:
-            - deploy
           filters:
             branches:
               only:
