@@ -38,12 +38,15 @@ jobs:
     <<: *defaults
     steps:
       - checkout
+      - attach_workspace:
+          at: ~/qlik-multi-kpi
       - run:
           name: Install dependencies
           command: npm install
       - run:
           name: Build and package
           command: |
+            cat BUMPED_VERSION
             export VERSION=$(scripts/get-bumped-version.sh)
             echo "Version: ${VERSION}"
             npm run build
