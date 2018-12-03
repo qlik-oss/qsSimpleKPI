@@ -131,8 +131,6 @@ export default class StatisticItem extends Component {
     if(fontStyles.underline)
       valueStyles.textDecoration = 'underline';
 
-    if(fontStyles.fontSize)
-      valueStyles.fontSize = fontStyles.fontSize;
 
     let classes = `ui ${labelOrientation} ${size} statistic`;
     classes = classes.split(" ").filter(function(item){

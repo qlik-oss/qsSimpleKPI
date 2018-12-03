@@ -194,12 +194,13 @@ class StatisticBlock extends Component {
     let rows = Math.ceil(qMeasureInfo.length / itemsPerRow);
     return qMeasureInfo.map(function(item, mindex){
       let index = measuresShift + mindex;
-      let itemSize = item.ovParams && item.size !== DEFAULT_SIZE ? item.size : options.size;
-      if(deltaSizeIndex > 0) {
-        let itemSizeIndex = getSizeIndex(itemSize);
-        itemSizeIndex = Math.max(0, options.autoSize && deltaSizeIndex > 0 ? itemSizeIndex - deltaSizeIndex + 1 : itemSizeIndex);
-        itemSize = SIZE_OPTIONS[itemSizeIndex].value;
-      }
+      // let itemSize = item.ovParams && item.size !== DEFAULT_SIZE ? item.size : options.size;
+      // if(deltaSizeIndex > 0) {
+      //   let itemSizeIndex = getSizeIndex(itemSize);
+      //   itemSizeIndex = Math.max(0, options.autoSize && deltaSizeIndex > 0 ? itemSizeIndex - deltaSizeIndex + 1 : itemSizeIndex);
+      //   itemSize = SIZE_OPTIONS[itemSizeIndex].value;
+      // }
+      let itemSize= self.props.options.size;
       if(index >= data.length) return;
       const isAttrExps = data[index].qAttrExps && data[index].qAttrExps.qValues.length;
       let overridedLabel;
