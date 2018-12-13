@@ -20,6 +20,14 @@ var config = {
     path: path.resolve(__dirname, settings.buildDestination),
     filename: outputFilename // output file
   },
+  externals: {
+    jquery: {
+      amd: 'jquery',
+      commonjs: 'jquery',
+      commonjs2: 'jquery',
+      root: '_'
+    },
+  },
   plugins: [],
   module: {
     noParse: ["react"],
