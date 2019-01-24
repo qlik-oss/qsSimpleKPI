@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
 import InlineCSS from 'react-inline-css';
 import { DIVIDE_BY, SIZE_OPTIONS, DEFAULT_SIZE, FONT_SIZE_OPTIONS, getSizeIndex , getDivideByNumber } from './options';
 import DimensionEntry from './dimensionEntry.container';
@@ -20,6 +20,8 @@ class StatisticBlock extends Component {
     this.componentReady = this.componentReady.bind(this);
     this.kpiItemResizeHandler = this.kpiItemResizeHandler.bind(this);
     this.onDimensionLabelClick = this.onDimensionLabelClick.bind(this);
+    this.parentReference = React.createRef();
+    this.statisticsReference = React.createRef();
   }
 
   componentDidMount(){
@@ -110,7 +112,7 @@ class StatisticBlock extends Component {
 
     let currentSize = this.state.size;
     const updateSizeArguments = {
-      containerElement: this.refs.parent,
+      containerElement: this.parentReference,
       options: this.props.options,
       kpis: this.props.kpis
     };
@@ -235,7 +237,9 @@ class StatisticBlock extends Component {
       let itemSize = item.ovParams && item.size !== DEFAULT_SIZE ? item.size : options.size;
       if(deltaSizeIndex > 0) {
         let itemSizeIndex = getSizeIndex(itemSize);
-        itemSizeIndex = Math.max(0, options.autoSize && deltaSizeIndex > 0 ? itemSizeIndex - deltaSizeIndex + 1 : itemSizeIndex);
+        itemSizeIndex = Math.max(0, options.autoSize && deltaSizeIndex > 0
+          ? itemSizeIndex - deltaSizeIndex + 1
+          : itemSizeIndex);
         itemSize = SIZE_OPTIONS[itemSizeIndex].value;
       }
       if(index >= data.length) return;
@@ -316,7 +320,7 @@ class StatisticBlock extends Component {
 
   render(){
     const self = this;
-    const { kpis, selections } = this.props;
+    const { kpis } = this.props;
     let {
       qId,
       dimLabelOrientation,
@@ -367,7 +371,10 @@ class StatisticBlock extends Component {
         }
         items = (
           <div className={`${verticalAlign}`}>
-            <div className={`ui ${dimensionsOrientation} ${dimShowAsContainer} ${EditModeClass}`} ref="parent" style={segmentsStyle}>
+            <div
+              className={`ui ${dimensionsOrientation} ${dimShowAsContainer} ${EditModeClass}`}
+              ref={this.parentReference} style={segmentsStyle}
+            >
               {
                 kpis.qDataPages[0].qMatrix.map(function(dim, dindex){
                   const dimensionLabel = dim[dimNo].qText;
@@ -407,7 +414,7 @@ class StatisticBlock extends Component {
       } else {
         items = (
           <div className={`${verticalAlign}`}>
-            <div ref="statistics" className={`ui ${divideBy} statistics`}>
+            <div ref={this.statisticsReference} className={`ui ${divideBy} statistics`}>
               {self.renderKpis(kpis, 0, divideByNumber)}
             </div>
           </div>);
@@ -427,7 +434,10 @@ class StatisticBlock extends Component {
 
     return (
       <InlineCSS namespace={`css-${qId}`} stylesheet={styles} style={{ height: "100%" }}>
-        <div className={`qv-object-qsstatistic ${this.props.services.State.isInEditMode() ? 'edit-mode' : ''}`} style={objectStyle}>
+        <div
+          className={`qv-object-qsstatistic ${this.props.services.State.isInEditMode() ? 'edit-mode' : ''}`}
+          style={objectStyle}
+        >
           {items}
         </div>
       </InlineCSS>
@@ -461,3 +471,33 @@ class StatisticBlock extends Component {
 }
 
 export default StatisticBlock;
+
+StatisticBlock.propTypes = {
+  element: PropTypes.object,
+  kpis: PropTypes.shape({
+    qDimensionInfo: PropTypes.shape({
+      length: PropTypes.number
+    })
+  }),
+  options: PropTypes.shape({
+    autoSize: PropTypes.boolean,
+    backgroundColor: PropTypes.string,
+    dimLabelOrientation: PropTypes.string,
+    dimLabelSize: PropTypes.string,
+    dimHideLabels: PropTypes.string,
+    dimCenteredLabels: PropTypes.string,
+    dimensionsOrientation: PropTypes.string,
+    dimHideBorders: PropTypes.string,
+    dimHideInternalBorders: PropTypes.string,
+    dimShowAs: PropTypes.string,
+    dimDivideBy: PropTypes.string,
+    divideBy: PropTypes.string,
+    labelOrientation: PropTypes.string,
+    numberFormatter: PropTypes.func,
+    size: PropTypes.string,
+    styles: PropTypes.string,
+    verticalAlign: PropTypes.string,
+    qId: PropTypes.string
+  }),
+  services: PropTypes.object
+};

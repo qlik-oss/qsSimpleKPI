@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import senseDragDropSupport from './senseDragDropSupport';
 
@@ -15,6 +16,11 @@ class ValueComponent extends Component {
     );
   }
 }
+
+ValueComponent.propTypes = {
+  valueStyles: PropTypes.string,
+  children: PropTypes.array
+};
 
 let DragDropSpec = {
   placeClassName: 'value',

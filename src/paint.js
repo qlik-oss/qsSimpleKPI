@@ -7,28 +7,7 @@ import { deselectAllEntries } from './selections.actions';
 import getStore from './createStore';
 
 const DEFAULT_AUTO_FORMAT = "0A";
-
-function getNumberFormatter(localeInfo, NumberFormatter) {
-  if(localeInfo && NumberFormatter) {
-    let decimalSeparator = localeInfo.qDecimalSep;
-    let thousandSep = localeInfo.qThousandSep;
-    return new NumberFormatter(localeInfo, DEFAULT_AUTO_FORMAT, thousandSep, decimalSeparator, 'U');
-  } else {
-    return undefined;
-  }
-}
-
 let wasZoomedId;
-function unmountIfZoomed($element, layout, { options }) {
-  if((options && options.isZoomed && wasZoomedId !== layout.qInfo.qId)
-  || (options && !options.isZoomed && wasZoomedId === layout.qInfo.qId)){
-    ReactDOM.unmountComponentAtNode(($element)[0]);
-    if(options.isZoomed)
-      wasZoomedId = layout.qInfo.qId;
-    else
-      wasZoomedId = undefined;
-  }
-}
 
 export default function setupPaint({
   qlik,
@@ -118,4 +97,25 @@ export default function setupPaint({
       ReactDOM.unmountComponentAtNode(elements[id]);
     }
   };
+}
+
+function getNumberFormatter(localeInfo, NumberFormatter) {
+  if(localeInfo && NumberFormatter) {
+    let decimalSeparator = localeInfo.qDecimalSep;
+    let thousandSep = localeInfo.qThousandSep;
+    return new NumberFormatter(localeInfo, DEFAULT_AUTO_FORMAT, thousandSep, decimalSeparator, 'U');
+  } else {
+    return undefined;
+  }
+}
+
+function unmountIfZoomed($element, layout, { options }) {
+  if((options && options.isZoomed && wasZoomedId !== layout.qInfo.qId)
+  || (options && !options.isZoomed && wasZoomedId === layout.qInfo.qId)){
+    ReactDOM.unmountComponentAtNode(($element)[0]);
+    if(options.isZoomed)
+      wasZoomedId = layout.qInfo.qId;
+    else
+      wasZoomedId = undefined;
+  }
 }

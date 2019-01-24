@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
 import { getDivideByValue } from './options';
 import ValueComponent from './ValueComponent';
 
@@ -11,11 +12,18 @@ class Icon extends Component {
     super(props);
   }
   shouldComponentUpdate (nextProps) {
-    const hasValueChanged = this.props.value !== nextProps.value;
-    const hasIconChanged = this.props.valueIcon !== nextProps.valueIcon;
-    const hasIconSizeChanged = this.props.iconSize !== nextProps.iconSize;
-    const hasInfographicChanged = this.props.infographic !== nextProps.infographic;
-    const hasIsOnValueChanged = this.props.isOnValue !== nextProps.isOnValue;
+    const {
+      value,
+      valueIcon,
+      iconSize,
+      infographic,
+      isOnValue
+    } = this.props;
+    const hasValueChanged = value !== nextProps.value;
+    const hasIconChanged = valueIcon !== nextProps.valueIcon;
+    const hasIconSizeChanged = iconSize !== nextProps.iconSize;
+    const hasInfographicChanged = infographic !== nextProps.infographic;
+    const hasIsOnValueChanged = isOnValue !== nextProps.isOnValue;
     return hasValueChanged || hasIconChanged || hasIconSizeChanged || hasInfographicChanged || hasIsOnValueChanged;
   }
   render() {
@@ -55,9 +63,18 @@ class Icon extends Component {
   }
 }
 
+Icon.propTypes = {
+  value: PropTypes.string,
+  valueIcon: PropTypes.string,
+  iconSize: PropTypes.string,
+  infographic: PropTypes.string,
+  isOnValue: PropTypes.bool,
+};
+
 export default class StatisticItem extends Component {
   constructor(props) {
     super(props);
+    this.valueReference = React.createRef();
   }
 
   componentDidMount(){
@@ -70,21 +87,22 @@ export default class StatisticItem extends Component {
   }
 
   checkRequiredSize(){
-    if(!this.props.onNeedResize)
+    const { onNeedResize } = this.props;
+    if(!onNeedResize)
       return;
 
     const { hideValue } = this.props.item;
     if(hideValue)
-      return this.props.onNeedResize(false);
+      return onNeedResize(false);
 
-    let valueElement = ReactDOM.findDOMNode(this.refs['value']);
+    let valueElement = this.valueReference;
     if(valueElement && valueElement.firstChild) {
       let valueChild = valueElement.firstChild;
       let childWidth = $(valueChild).width();
       if(childWidth > valueElement.clientWidth) {
-        this.props.onNeedResize(true);
+        onNeedResize(true);
       } else
-        this.props.onNeedResize(false);
+        onNeedResize(false);
     }
   }
 
@@ -150,9 +168,11 @@ export default class StatisticItem extends Component {
       </div>
     );
 
+    const ref = this.valueReference;
+
     let valueComponentProps = {
       key: "val",
-      ref: "value",
+      ref,
       measureIndex,
       embeddedItem,
       mainContainerElement,
@@ -206,3 +226,37 @@ export default class StatisticItem extends Component {
     return statisticItem;
   }
 }
+
+StatisticItem.propTypes = {
+  index: PropTypes.number,
+  services: PropTypes.bool,
+  item: PropTypes.shape({
+    hideLabel: PropTypes.string,
+    hideValue: PropTypes.string,
+    labelOrientation: PropTypes.string,
+    labelOrder: PropTypes.string,
+    iconOrder: PropTypes.string,
+    iconPosition: PropTypes.string,
+    label: PropTypes.string,
+    labelColor: PropTypes.string,
+    value: PropTypes.string,
+    measureIndex: PropTypes.string,
+    numericValue: PropTypes.string,
+    valueColor: PropTypes.string,
+    valueIcon: PropTypes.string,
+    iconSize: PropTypes.string,
+    size: PropTypes.string,
+    fontStyles: PropTypes.string,
+    onClick: PropTypes.string,
+    textAlignment: PropTypes.string,
+    infographic: PropTypes.string,
+    embeddedItem: PropTypes.string,
+    mainContainerElement: PropTypes.string,
+    kpisRows: PropTypes.string,
+    isShow: PropTypes.string
+  }),
+  onNeedResize: PropTypes.bool,
+  options: PropTypes.shape({
+    divideBy: PropTypes.string
+  })
+};

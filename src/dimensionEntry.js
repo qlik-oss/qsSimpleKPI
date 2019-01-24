@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 const dividedByObject = Object.freeze({
   'one': '100%',
   'two': '40%',
@@ -56,7 +57,6 @@ class DimensionEntry extends Component {
       label,
       divideBy,
       divideByNumber,
-      flexBasis,
       dimDivideBy
     } = this.props;
     const { isSelected } = this.props;
@@ -103,7 +103,8 @@ DimensionEntry.propTypes = {
   onSelect: PropTypes.func.isRequired,
   onToggle: PropTypes.func.isRequired,
   showAs: PropTypes.string.isRequired,
-  style: PropTypes.object
+  style: PropTypes.object,
+  dimDivideBy: PropTypes.string
 };
 
 export default DimensionEntry;

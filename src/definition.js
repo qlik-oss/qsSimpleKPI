@@ -10,10 +10,6 @@ import { SIZE_OPTIONS, DEFAULT_SIZE, DIM_LABEL_OPTIONS, DIM_VIEW_OPTIONS } from 
 import ATTRIBUTES from './definitionAttributes';
 
 export default function ({ ShowService }) {
-// let Dialog = options.Dialog;
-  //let ShowService = options.ShowService;
-
-
   let data= {
     uses: "data",
     items:{
@@ -126,15 +122,7 @@ export default function ({ ShowService }) {
             translation : "Common.Label",
             show: function(a) {
               return a.qDef.ovParams;
-            },
-          // change: function(obj) {
-          //   const isExpr = /^=/;
-          //   const isString = /^'(.+)'$/;
-          //   const value = obj.qAttributeExpressions[ATTRIBUTES.overridedLabel.index].qExpression;
-          //   if(!isExpr.exec(value) && !isString.exec(value)) {
-          //     obj.qAttributeExpressions[ ATTRIBUTES.overridedLabel.index] = `'${value}'`;
-          //   }
-          // },
+            }
           },
           size: {
             type: "string",
@@ -235,10 +223,6 @@ export default function ({ ShowService }) {
                 icon:"O",
                 component : "icon-item"
               },
-              /*
-            label: "Center",
-            labelPlacement : "bottom",
-            */
               {
                 value: "right",
                 icon:"N",
@@ -326,8 +310,6 @@ export default function ({ ShowService }) {
             type: "string",
             ref: "qDef.embeddedItem",
             label: "Visualization",
-            //component : "expression",
-            //expressionType : "measure",
             expression: "always",
             defaultValue: "",
             show: true
@@ -664,40 +646,6 @@ export default function ({ ShowService }) {
             label: "Styles (CSS)",
             ref: "options.styles",
             defaultValue: ""
-          }
-        }
-      }
-    }
-  };
-
-  let dataHandling = {
-    type: "items",
-    translation : "properties.dataHandling",
-    grouped: true,
-    items: {
-      calcCond: {
-        type: "items",
-        translation : "properties.hyperCube.calcCond",
-        items: {
-          expr: {
-            ref: "qHyperCubeDef.qCalcCond",
-            type: "string",
-            component : "expression",
-            expressionType : "ValueExpr",
-            label: "Calculation condition",
-            translation : "properties.hyperCube.calcCond"
-          },
-          customErrorMessage : {
-            ref : "qHyperCubeDef.customErrorMessage.calcCond",
-            component : "textarea",
-            defaultValue : "",
-            type : "string",
-            placeholderTranslation : "Object.ErrorMessage.CalculationCondition",
-            translation : "properties.hyperCube.calcCondMessage",
-            show : function (data) {
-              var cond = data.qHyperCubeDef && data.qHyperCubeDef.qCalcCond;
-              return cond && cond.qv && "" !== cond.qv;
-            }
           }
         }
       }

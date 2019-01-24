@@ -1,37 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-
-function IsRectEqual(r1, r2) {
-  return r1.left === r2.left
-    && r1.top === r2.top
-    && r1.right === r2.right
-    && r1.bottom === r2.bottom;
-}
-
-// used in the DragDropSupport below
-function start(drag) {
-  // drag.info.type: "libraryitem", "gridcell",...?
-  let type = drag.info.type;
-  //console.log('dnd start', this.accept[type]);
-  let shouldAccept = this.accept[type]
-   && 'function' == typeof this.accept[type] ? this.accept[type].call(this, drag) : this.accept[type];
-
-  //console.log('dnd should accept', shouldAccept);
-  if(shouldAccept) {
-    // Accept object with the following spec:
-    // prio : 1,
-    // targetRect : rect,
-    // drawRect : rect,
-    // cellRect : rect,
-    // drop : dropFn(splitCell, sheet)
-    drag.registerDropRect(this);
-    this.setupDragDropRect && this.setupDragDropRect();
-  }
-}
-
-function end() {
-  //console.log('end drag drop');
-}
+import PropTypes from 'prop-types';
 
 /**
 * @params spec - sense drag and drop specification object:
@@ -92,6 +61,7 @@ export default function DragDropSupport(spec = DEFAULT_SPEC) {
         this.end = end.bind(this);
 
         spec.onInitStateHandler && spec.onInitStateHandler.call(this);
+        this.elementReference = React.createRef();
       }
 
       componentDidMount() {
@@ -130,13 +100,10 @@ export default function DragDropSupport(spec = DEFAULT_SPEC) {
       // Drag and drop support methods and props
       // "libraryitem", "gridcell",...?
       getRect(){
-        //console.log(this.child);
-        let element = ReactDOM.findDOMNode(this); //ReactDOM.findDOMNode(this);
+        let element = this.elementReference; 
         let br = element.getBoundingClientRect();
         //console.warn('можно передавать параметр в spec, ссылку на контейнер');
         let $parent = $(element).parent();
-        //console.log('parent', $parent);
-        //ReactDOM.findDOMNode(this.refs.child).getBoundingClientRect();
         return {
           left: br.left - $parent.scrollLeft(),
           top: br.top - $parent.scrollTop(),
@@ -155,7 +122,7 @@ export default function DragDropSupport(spec = DEFAULT_SPEC) {
       }
 
       getPlaceholderElement() {
-        let element = ReactDOM.findDOMNode(this);
+        let element = this.elementReference;
         let placeholder = element.getElementsByClassName(this.placeClassName || "placeholder")[0];
         if(!placeholder) placeholder = element;
         return element;
@@ -185,6 +152,42 @@ export default function DragDropSupport(spec = DEFAULT_SPEC) {
     // assign sense dnd support method
     //assign(DragDropContainer.prototype, spec);
 
+    DragDropContainer.propTypes = {
+      services: PropTypes.array,
+      isShow: PropTypes.bool
+    };
+
     return DragDropContainer;
   };
+}
+
+function IsRectEqual(r1, r2) {
+  return r1.left === r2.left
+    && r1.top === r2.top
+    && r1.right === r2.right
+    && r1.bottom === r2.bottom;
+}
+
+function start(drag) {
+  // drag.info.type: "libraryitem", "gridcell",...?
+  let type = drag.info.type;
+  //console.log('dnd start', this.accept[type]);
+  let shouldAccept = this.accept[type]
+   && 'function' == typeof this.accept[type] ? this.accept[type].call(this, drag) : this.accept[type];
+
+  //console.log('dnd should accept', shouldAccept);
+  if(shouldAccept) {
+    // Accept object with the following spec:
+    // prio : 1,
+    // targetRect : rect,
+    // drawRect : rect,
+    // cellRect : rect,
+    // drop : dropFn(splitCell, sheet)
+    drag.registerDropRect(this);
+    this.setupDragDropRect && this.setupDragDropRect();
+  }
+}
+
+function end() {
+  //console.log('end drag drop');
 }
