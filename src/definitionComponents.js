@@ -1,7 +1,7 @@
 import { getRefValue, setRefValue } from './utils';
 import DialogComponentFactory from './dialogComponent';
 
-let FontStylesComponent = {
+export const FontStylesComponent = {
   template:
     `<div class="pp-component pp-buttongroup-component qv-object-qsstatistic" ng-if="visible">
       <div class="label" ng-if="label" ng-class="{ \'disabled\': readOnly }">
@@ -96,7 +96,7 @@ let FontStylesComponent = {
     }]
 };
 
-let TextEditorComponent = {
+export const TextEditorComponent = {
   template:
   `
   <div class="pp-component" ng-if="visible">
@@ -143,7 +143,7 @@ let TextEditorComponent = {
 };
 
 // Select icon dialog component
-let SelectIconDialogComponent = function(ShowService) {
+export const SelectIconDialogComponent = function(ShowService) {
   return DialogComponentFactory(ShowService, (() => {
     function getValueIndex(c, styleName) {
       let indx = -1;
@@ -272,7 +272,7 @@ let SelectIconDialogComponent = function(ShowService) {
 }; // SelectIconDialogComponent
 
 // Detect changes in property "propertyName" and propagate it to referenced property...
-let DetectChangesInComponent = function(propertyName) {
+export const DetectChangesInComponent = function(propertyName) {
   return {
     template: '<span></span>', // Non visible component
     controller: ["$scope", function(scope) {

@@ -1,4 +1,4 @@
-const FULL_ICONS_SET = {
+export const FULL_ICONS_SET = {
   "Standard icons": [
     "lui-icon lui-icon--image",
     "lui-icon lui-icon--back",

@@ -128,9 +128,9 @@ const COLOR_OPTIONS = [
 ];
 
 // in case of overrided parametes. see definition.js
-const DEFAULT_SIZE = ' ';
+export const DEFAULT_SIZE = ' ';
 
-const SIZE_OPTIONS = [
+export const SIZE_OPTIONS = [
   {
     value: "mini",
     label: "Mini",
@@ -163,24 +163,24 @@ const SIZE_OPTIONS = [
   }
 ];
 
-function getSizeIndex(value) {
+export function getSizeIndex(value) {
   return SIZE_OPTIONS.map(function(item){
     return item.value;
   }).indexOf(value);
 }
 
-const DIVIDE_BY = [
+export const DIVIDE_BY = [
   '', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'
 ];
 
-function getDivideByValue(value) {
+export function getDivideByValue(value) {
   var divs = DIVIDE_BY.indexOf(value);
   if(divs !== -1)
     return 100 / divs;
   else
     return null;
 }
-function getDivideByNumber(value) {
+export function getDivideByNumber(value) {
   var divs = DIVIDE_BY.indexOf(value);
   if(divs !== -1)
     return divs;
@@ -188,7 +188,7 @@ function getDivideByNumber(value) {
     return null;
 }
 
-const DIM_LABEL_OPTIONS = [
+export const DIM_LABEL_OPTIONS = [
   {
     value: "top attached",
     label: "top attached"
@@ -215,7 +215,7 @@ const DIM_LABEL_OPTIONS = [
   }
 ];
 
-const DIM_VIEW_OPTIONS = [
+export const DIM_VIEW_OPTIONS = [
   {
     value: "segment",
     label: "Segment"
@@ -226,7 +226,7 @@ const DIM_VIEW_OPTIONS = [
   }
 ];
 
-const FONT_SIZE_OPTIONS = [
+export const FONT_SIZE_OPTIONS = [
   'xx-small', // xx-small too small
   'x-small',
   'small',

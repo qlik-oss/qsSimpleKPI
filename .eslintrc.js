@@ -9,6 +9,8 @@ module.exports = {
   },
   parser: "babel-eslint",
   env: {
+    browser: true,
+    es6: true,
     node: true
   },
   globals: {
@@ -18,19 +20,15 @@ module.exports = {
     document: false,
     expect: false,
     it: false,
-    require: false
-  },
-  settings: {
-    react: {
-      version: "0.14.0"
-    }
+    require: false,
+    $: false
   },
   rules: {
-    "indent": ["warn", 2, { "SwitchCase": 1 }],
-    "linebreak-style": ["warn", "unix"],
-    "object-curly-spacing": ["warn", "always"],
+    "indent": ["error", 2, { "SwitchCase": 1 }],
+    "linebreak-style": ["error", "unix"],
+    "object-curly-spacing": ["error", "always"],
     "max-lines": ["warn", 300],
-    "max-len": ["warn", 120],
+    "max-len": ["warn", { "code": 120, "ignoreComments": true, "ignoreTrailingComments": false }],
     "no-console": ["warn"],
     "no-mixed-operators": ["warn", {
       "groups": [
@@ -40,19 +38,35 @@ module.exports = {
       ],
       "allowSamePrecedence": true
     }],
-    "no-multi-spaces": ["warn"],
+    "no-multi-spaces": ["error"],
+    "no-cond-assign": ["warn"],
+    "no-fallthrough": ["warn"],
+    "no-undef": ["warn"],
+    "no-unused-vars": ["warn", { "args": "none" }],
     "no-use-before-define": ["warn", { "functions": false, "classes": false, "variables": false }],
+    "no-useless-escape": ["warn"],
     "no-useless-return": ["warn"],
     "no-underscore-dangle": ["warn", { "allow": ["_id"] }],
+    "no-redeclare": ["warn"],
     "no-restricted-syntax": ["warn"],
     "operator-linebreak": ["warn", "before"],
     "prefer-promise-reject-errors": ["warn"],
     "padded-blocks": ["warn", { "blocks": "never", "switches": "never", "classes": "never" }],
-    "semi": ["warn", "always"],
-    "react/prop-types": "off"
+    "semi": ["error", "always"],
+    "valid-typeof": ["warn"],
+    "no-eval": ["error"],
+    "no-implied-eval": ["error"],
+    "no-debugger": ["warn"],
+    "no-mixed-spaces-and-tabs": ["warn"],
   },
   extends: [
     "eslint:recommended",
-    "plugin:react/recommended"
-  ]
+    'plugin:react/recommended'
+  ],
+  settings: {
+    "react": {
+      "version": "detect" // React version. "detect" automatically picks the version you have installed.
+                            // You can also use `16.0`, `16.3`, etc, if you want to override the detected value.
+    }
+  }
 }
