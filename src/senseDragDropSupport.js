@@ -153,7 +153,7 @@ export default function DragDropSupport(spec = DEFAULT_SPEC) {
     //assign(DragDropContainer.prototype, spec);
 
     DragDropContainer.propTypes = {
-      services: PropTypes.array,
+      services: PropTypes.object,
       isShow: PropTypes.bool
     };
 

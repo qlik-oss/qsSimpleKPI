@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import InlineCSS from 'react-inline-css';
 import { DIVIDE_BY, SIZE_OPTIONS, DEFAULT_SIZE, FONT_SIZE_OPTIONS, getSizeIndex , getDivideByNumber } from './options';
 import DimensionEntry from './dimensionEntry.container';
 import StatisticItem from './statisticItem';
@@ -352,7 +351,7 @@ class StatisticBlock extends Component {
         const dimNo = 0; // only one dimension allowed!
         if(dimDivideBy === "auto")
           dimDivideBy = DIVIDE_BY[Math.min(10, kpis.qDimensionInfo[dimNo].qCardinal)];
-        let isInEditMode = this.props.services.State.isInEditMode();
+        let isInEditMode = this.props.services.State.isInEditMode;
         let EditModeClass = isInEditMode ? 'edit-mode' : '';
         let dimShowAsContainer = dimShowAs === 'card' ? `${dimDivideBy} stackable cards` : 'segments';
         let dimLabelsAlignment = '';
@@ -433,21 +432,19 @@ class StatisticBlock extends Component {
     }
 
     return (
-      <InlineCSS namespace={`css-${qId}`} stylesheet={styles} style={{ height: "100%" }}>
-        <div
-          className={`qv-object-qsstatistic ${this.props.services.State.isInEditMode() ? 'edit-mode' : ''}`}
-          style={objectStyle}
-        >
-          {items}
-        </div>
-      </InlineCSS>
+      <div
+        className={`qv-object-qsstatistic ${this.props.services.State.isInEditMode ? 'edit-mode' : ''}`}
+        style={objectStyle}
+      >
+        {items}
+      </div>
     );
   }
 
   onKPIClick(kpi) {
     const services = this.props.services;
     const isAllowOpenSheet = (this.props.services.State
-      && !this.props.services.State.isInEditMode());
+      && !this.props.services.State.isInEditMode);
     if(kpi.useLink && isAllowOpenSheet /*&& services.Routing*/) {
       let linkId;
       if (typeof(kpi.kpiLink) === "string")
@@ -475,25 +472,23 @@ export default StatisticBlock;
 StatisticBlock.propTypes = {
   element: PropTypes.object,
   kpis: PropTypes.shape({
-    qDimensionInfo: PropTypes.shape({
-      length: PropTypes.number
-    })
+    qDimensionInfo: PropTypes.array
   }),
   options: PropTypes.shape({
     autoSize: PropTypes.boolean,
-    backgroundColor: PropTypes.string,
+    backgroundColor: PropTypes.object,
     dimLabelOrientation: PropTypes.string,
     dimLabelSize: PropTypes.string,
-    dimHideLabels: PropTypes.string,
-    dimCenteredLabels: PropTypes.string,
+    dimHideLabels: PropTypes.bool,
+    dimCenteredLabels: PropTypes.bool,
     dimensionsOrientation: PropTypes.string,
-    dimHideBorders: PropTypes.string,
-    dimHideInternalBorders: PropTypes.string,
+    dimHideBorders: PropTypes.bool,
+    dimHideInternalBorders: PropTypes.bool,
     dimShowAs: PropTypes.string,
     dimDivideBy: PropTypes.string,
     divideBy: PropTypes.string,
     labelOrientation: PropTypes.string,
-    numberFormatter: PropTypes.func,
+    numberFormatter: PropTypes.object,
     size: PropTypes.string,
     styles: PropTypes.string,
     verticalAlign: PropTypes.string,

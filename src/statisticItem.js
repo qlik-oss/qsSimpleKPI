@@ -63,14 +63,6 @@ class Icon extends Component {
   }
 }
 
-Icon.propTypes = {
-  value: PropTypes.string,
-  valueIcon: PropTypes.string,
-  iconSize: PropTypes.string,
-  infographic: PropTypes.string,
-  isOnValue: PropTypes.bool,
-};
-
 export default class StatisticItem extends Component {
   constructor(props) {
     super(props);
@@ -227,27 +219,35 @@ export default class StatisticItem extends Component {
   }
 }
 
+Icon.propTypes = {
+  value: PropTypes.number,
+  valueIcon: PropTypes.string,
+  iconSize: PropTypes.string,
+  infographic: PropTypes.bool,
+  isOnValue: PropTypes.bool,
+};
+
 StatisticItem.propTypes = {
   index: PropTypes.number,
-  services: PropTypes.bool,
+  services: PropTypes.object,
   item: PropTypes.shape({
-    hideLabel: PropTypes.string,
-    hideValue: PropTypes.string,
+    hideLabel: PropTypes.bool,
+    hideValue: PropTypes.bool,
     labelOrientation: PropTypes.string,
     labelOrder: PropTypes.string,
     iconOrder: PropTypes.string,
     iconPosition: PropTypes.string,
     label: PropTypes.string,
-    labelColor: PropTypes.string,
+    labelColor: PropTypes.object,
     value: PropTypes.string,
-    measureIndex: PropTypes.string,
-    numericValue: PropTypes.string,
-    valueColor: PropTypes.string,
+    measureIndex: PropTypes.number,
+    numericValue: PropTypes.number,
+    valueColor: PropTypes.object,
     valueIcon: PropTypes.string,
     iconSize: PropTypes.string,
     size: PropTypes.string,
     fontStyles: PropTypes.string,
-    onClick: PropTypes.string,
+    onClick: PropTypes.func,
     textAlignment: PropTypes.string,
     infographic: PropTypes.string,
     embeddedItem: PropTypes.string,
@@ -255,7 +255,7 @@ StatisticItem.propTypes = {
     kpisRows: PropTypes.string,
     isShow: PropTypes.string
   }),
-  onNeedResize: PropTypes.bool,
+  onNeedResize: PropTypes.func,
   options: PropTypes.shape({
     divideBy: PropTypes.string
   })

@@ -1,15 +1,13 @@
 import {
   FontStylesComponent,
   TextEditorComponent,
-  SelectIconDialogComponent,
   DetectChangesInComponent
 } from './definitionComponents';
 
-import { FULL_ICONS_SET } from './iconsDefinitions';
 import { SIZE_OPTIONS, DEFAULT_SIZE, DIM_LABEL_OPTIONS, DIM_VIEW_OPTIONS } from './options';
 import ATTRIBUTES from './definitionAttributes';
 
-export default function ({ ShowService }) {
+export default function () {
   let data= {
     uses: "data",
     items:{
@@ -238,13 +236,7 @@ export default function ({ ShowService }) {
             defaultValue: "",
             show: true
           },
-          pickItemIcon: {
-            type: "string",
-            component: SelectIconDialogComponent(ShowService), //IconsPickerComponent,
-            ref: "qDef.valueIcon",
-            defaultValue: "",
-            options: FULL_ICONS_SET
-          },
+          
           iconPosition: {
             type: "string",
             component: "buttongroup",

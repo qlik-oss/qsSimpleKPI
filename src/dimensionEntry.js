@@ -16,7 +16,6 @@ class DimensionEntry extends Component {
 
     this.handleClick = this.handleClick.bind(this);
     this.hidePointerCursor = this.hidePointerCursor.bind(this);
-
   }
 
   hidePointerCursor () {
@@ -28,9 +27,6 @@ class DimensionEntry extends Component {
     }
   }
 
-  updateFlexBasis (key) {
-    this.props.style.flexBasis = dividedByObject[key];
-  }
   handleClick () {
     const {
       dimNo,
@@ -55,13 +51,10 @@ class DimensionEntry extends Component {
       showAs,
       style,
       label,
-      divideBy,
-      divideByNumber,
-      dimDivideBy
+      divideBy
     } = this.props;
     const { isSelected } = this.props;
     const isSelectedClass = isSelected ? ' is-selected' : '';
-    this.updateFlexBasis(dimDivideBy);
     return (
       <div className={`ui ${showAs}${isSelectedClass}`} style={style}>
         {label.isHidden
