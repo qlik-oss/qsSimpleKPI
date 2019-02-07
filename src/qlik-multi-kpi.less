@@ -31,9 +31,7 @@
   }
 
   .infographic-icon-set-wrapper {
-
     line-height: 0; // hack to offset height from 4rem font-size from semantic-ui
-    display: grid;
   }
 
   .top-aligned-items {
@@ -69,23 +67,7 @@
   .ui.statistics, .ui.segments  {
     width: 100%;
   }
-  .ui.segment{
-    &.infographics{
-      min-width: 170px !important;
-      &.normal{
-        min-width: 200px !important;
 
-      }
-      &.large{
-        min-width: 240px !important;
-
-      }
-      &.huge{
-        min-width: 300px !important;
-
-      }
-    }
-  }
   .ui.horizontal.segments {
     margin: 0;
     height: auto;
@@ -101,15 +83,7 @@
       height: 100%;
     }
   }
-
-  .ui.statistics .statistic > .label,
-  .ui.statistic > .label {
-    text-transform: none;
-    width: 100%;
-  }
-  .ui.statistic > .value {
-    width: 100%;
-  }
+  
   .ui.segment > .label[class*="center aligned"] {
     text-align: center;
   }
@@ -120,25 +94,13 @@
   .ui.segments, .ui.segment {
     background-color: transparent !important;
   }
-  .ui.statistic .label .infographic-icon-set-wrapper +span{
-    width: 100%;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    display: inline-block;
-  }
   .value--icon--wrapper{
-    position: relative;
     display: inline-block;
+    position: relative;
     margin: 8px;
     bottom: 0;
     &.infographic{
       margin: 10px 0;
-      &.large{
-        margin: 20px 0;
-      }
-      &.huge{
-        margin: 20px 0;
-      }
     }
   }
   .value--icon--wrapper.on-value{
@@ -180,7 +142,9 @@
   }
 
   .ui.cards {
+    align-items: center;
     margin: 0 !important;
+    align-items: center;
     justify-content: space-evenly;
     height: 100%;
     display: -ms-flexbox;
@@ -297,7 +261,7 @@
     .statistics {
       display: flex;
       justify-content: center;
-
+      
       .statistic {
         align-self: flex-start;
       }
@@ -319,6 +283,9 @@
       min-width: fit-content;
     }
 
+    .ui.segment {
+      min-width: 150px;
+    }
 
     .ui.segment, .ui.card {
       flex-direction: column;

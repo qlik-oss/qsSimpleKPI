@@ -67,19 +67,13 @@ class DimensionEntry extends Component {
       divideBy,
       divideByNumber,
       flexBasis,
-      dimDivideBy,
-      aMeasureHasInfographicIcons,
-      iconSize
+      dimDivideBy
     } = this.props;
     const { isSelected } = this.props;
     const isSelectedClass = isSelected ? ' is-selected' : '';
-    let infographicClass = '';
-    if(aMeasureHasInfographicIcons){
-      infographicClass = iconSize + ' infographics';
-    }
     this.updateFlexBasis(dimDivideBy);
     return (
-      <div className={`ui ${showAs}${isSelectedClass} ${infographicClass}`} style={style}>
+      <div className={`ui ${showAs}${isSelectedClass}`} style={style}>
         {label.isHidden
           ? null
           : (
