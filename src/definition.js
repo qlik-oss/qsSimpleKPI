@@ -16,10 +16,21 @@ import {
 import { FULL_ICONS_SET } from './iconsDefinitions';
 import ATTRIBUTES from './definitionAttributes';
 
-export default function ({ ShowService }) {
+export default function ({ qlik, ShowService }) {
 // let Dialog = options.Dialog;
   //let ShowService = options.ShowService;
-
+  //property panel breaks if options array is empty
+  const EMPTY_BOOKMARKLIST = [{ value: '', label:'No bookmarks' }];
+  let bookmarklist = EMPTY_BOOKMARKLIST;
+  qlik.currApp().getList('BookmarkList', function (reply) {
+    bookmarklist = reply.qBookmarkList.qItems.length < 1
+      ? EMPTY_BOOKMARKLIST : reply.qBookmarkList.qItems.map(function (bm) {
+        return {
+          value: bm.qInfo.qId,
+          label: bm.qMeta.title
+        };
+      });
+  });
   let data= {
     uses: "data",
     items:{
@@ -86,6 +97,39 @@ export default function ({ ShowService }) {
                 component : 'sheet-dropdown',
                 show : function (data) {
                   return data.qDef.useLink;
+                }
+              }
+            }
+          },
+          linkToBookmark: {
+            type: "items",
+            items: {
+              useBookmark: {
+                ref: "qDef.useBookmark",
+                type: "boolean",
+                component: "switch",
+                label: "Link to Bookmark",
+                defaultValue: false,
+                options: [{
+                  value: true,
+                  translation: "properties.on"
+                }, {
+                  value: false,
+                  translation: "properties.off"
+                }],
+                show: function () {
+                  return bookmarklist !== EMPTY_BOOKMARKLIST;
+                }
+              },
+              bookmark: {
+                ref: "qDef.bookmark",
+                type: "string",
+                component: 'dropdown',
+                options: function () {
+                  return bookmarklist;
+                },
+                show: function (data) {
+                  return data.qDef.useBookmark && bookmarklist !== EMPTY_BOOKMARKLIST;
                 }
               }
             }
