@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import InlineCSS from 'react-inline-css';
-import { DIVIDE_BY, SIZE_OPTIONS, DEFAULT_SIZE, FONT_SIZE_OPTIONS, getSizeIndex  } from './options';
+import { DIVIDE_BY, SIZE_OPTIONS, DEFAULT_SIZE, FONT_SIZE_OPTIONS, getSizeIndex } from './options';
 import DimensionEntry from './dimensionEntry.container';
 import StatisticItem from './statisticItem';
 import ATTRIBUTES from './definitionAttributes';
@@ -145,6 +145,8 @@ class StatisticBlock extends Component {
         fontStyles: {},
         kpiLink: item.kpiLink,
         useLink: item.useLink,
+        useBookmark: item.useBookmark,
+        bookmark: item.bookmark,
         textAlignment: item.textAlignment,
         infographic: item.infographic,
         embeddedItem: item.embeddedItem,
@@ -336,7 +338,10 @@ class StatisticBlock extends Component {
     const services = this.props.services;
     const isAllowOpenSheet = (this.props.services.State
       && !this.props.services.State.isInEditMode());
-    if(kpi.useLink && isAllowOpenSheet /*&& services.Routing*/) {
+    if (kpi.useBookmark && kpi.bookmark && isAllowOpenSheet /*&& services.Routing*/ ) {
+      services.Qlik.currApp().bookmark.apply(kpi.bookmark);
+    }
+    if (kpi.useLink && isAllowOpenSheet /*&& services.Routing*/ ) {
       let linkId;
       if (typeof(kpi.kpiLink) === "string")
         linkId = kpi.kpiLink;
