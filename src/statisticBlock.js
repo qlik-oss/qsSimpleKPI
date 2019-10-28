@@ -253,6 +253,7 @@ class StatisticBlock extends Component {
         isShow
       };
       params.onClick = self.onKPIClick.bind(self, params);
+      console.log("iconSize" , params.iconSize);
 
 
       let fontStyles = item.fontStyles && item.fontStyles.split(',');
@@ -364,6 +365,7 @@ class StatisticBlock extends Component {
                         if (measures[i].props.item.infographic === true){
                           aMeasureHasInfographicIcons = true;
                           iconSize = measures[i].props.item.iconSize;
+                          console.log("iconSize", iconSize);
                         }
                       }
                     }
@@ -425,7 +427,7 @@ class StatisticBlock extends Component {
 
     return (
       <InlineCSS namespace={`css-${qId}`} stylesheet={styles} style={{ height: "100%" }}>
-        <div className={`qv-object-qsstatistic ${this.props.services.State.isInEditMode() ? 'edit-mode' : ''}` + "huge"} style={objectStyle}>
+        <div className={`qv-object-qsstatistic ${this.props.services.State.isInEditMode() ? 'edit-mode' : ''}`} style={objectStyle}>
           {items}
         </div>
       </InlineCSS>
