@@ -117,7 +117,7 @@ function createRegExp(thousand, decimal) {
 const DefaultSIprefixes = {
     3 : "k",
     6 : "M",
-    9 : "G",
+    9 : "B",
     12 : "T",
     15 : "P",
     18 : "E",
