@@ -146,7 +146,8 @@ const DefaultSIprefixes = {
     if (!localeInfo || !localeInfo.qNumericalAbbreviation) {
       return  DefaultSIprefixes;
     }
-  
+  else{
+
     const abbreviations = {};
     const abbrs = localeInfo.qNumericalAbbreviation.split(';');
   
@@ -156,8 +157,10 @@ const DefaultSIprefixes = {
         abbreviations[abbreviationTuple[0]] = abbreviationTuple[1];
       }
     });
-  
     return abbreviations;
+      }
+    
+   
   }
 class NumberFormatter {
   constructor(localeInfo, pattern, thousand, decimal, type) {
