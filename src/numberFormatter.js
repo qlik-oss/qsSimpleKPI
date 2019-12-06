@@ -117,7 +117,7 @@ function createRegExp(thousand, decimal) {
 const DefaultSIprefixes = {
     3 : "k",
     6 : "M",
-    9 : "B",
+    9 : "G",
     12 : "T",
     15 : "P",
     18 : "E",
@@ -146,7 +146,7 @@ const DefaultSIprefixes = {
     if (!localeInfo || !localeInfo.qNumericalAbbreviation) {
       return  DefaultSIprefixes;
     }
-  else{
+ 
 
     const abbreviations = {};
     const abbrs = localeInfo.qNumericalAbbreviation.split(';');
@@ -158,7 +158,7 @@ const DefaultSIprefixes = {
       }
     });
     return abbreviations;
-      }
+      
     
    
   }
@@ -231,6 +231,7 @@ class NumberFormatter {
       }
 
       if (prep.abbreviate) {
+        this.abbr = getAbbreviations(localeInfo);
         const abbreviations = this.abbreviations;
         const abbrArray = Object.keys(abbreviations)
           .map(key => {
@@ -277,7 +278,7 @@ class NumberFormatter {
         }
 
         if (suggestedAbbrExponent) {
-          abbr = abbreviations[suggestedAbbrExponent];
+          abbr = abbr[suggestedAbbrExponent];
           value /= Math.pow(10, suggestedAbbrExponent);
         }
       }
