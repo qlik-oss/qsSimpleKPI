@@ -213,7 +213,7 @@ class NumberFormatter {
     });
   }
 
-  formatValue(value, SIprefixes=DefaultSIprefixes) {
+  formatValue(value) {
     let temp, exponent, absValue, num, d, t, i, numericPattern,
       decimalPartPattern, prep = this._prepared, abbr = "", sciValue = "";
 
@@ -246,12 +246,19 @@ class NumberFormatter {
         exponent = Number(
           Number(value)
             .toExponential()
-            .split('e')[1],
-            exponent = exponent-exponent % 3,
-      exponent in SIprefixes &&
-       (abbr = SIprefixes[exponent], 
-      value = value/ Math.pow(10, exponent)),
-        );
+            .split('e')[1]);
+
+            // exponent = exponent-exponent % 3;
+            // if(exponent in SIprefixes ){
+            //   abbr = SIprefixes[exponent];
+
+            //   value = value/ Math.pow(10, exponent);
+            // }
+    
+       
+
+      
+        
 
         while (upperAbbreviation <= exponent && i < abbrArray.length) {
           i++;
@@ -287,11 +294,11 @@ class NumberFormatter {
         }
       }
 
-      
       absValue = Math.abs(value);
       temp = prep.temp;
       numericPattern = prep.numericPattern;
       decimalPartPattern = numericPattern.split(d)[1];
+    
 
       if (this.type === 'I') {
         value = Math.round(value);
