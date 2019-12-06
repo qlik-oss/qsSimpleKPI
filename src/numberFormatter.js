@@ -213,7 +213,7 @@ class NumberFormatter {
     });
   }
 
-  formatValue(value) {
+  formatValue(value, SIprefixes=DefaultSIprefixes) {
     let temp, exponent, absValue, num, d, t, i, numericPattern,
       decimalPartPattern, prep = this._prepared, abbr = "", sciValue = "";
 
@@ -231,7 +231,7 @@ class NumberFormatter {
       }
 
       if (prep.abbreviate) {
-        this.abbr = getAbbreviations(localeInfo);
+        abbr = getAbbreviations(this.localeInfo);
         const abbreviations = this.abbreviations;
         const abbrArray = Object.keys(abbreviations)
           .map(key => {
@@ -246,7 +246,11 @@ class NumberFormatter {
         exponent = Number(
           Number(value)
             .toExponential()
-            .split('e')[1]
+            .split('e')[1],
+            exponent = exponent-exponent % 3,
+      exponent in SIprefixes &&
+       (abbr = SIprefixes[exponent], 
+      value = value/ Math.pow(10, exponent)),
         );
 
         while (upperAbbreviation <= exponent && i < abbrArray.length) {
@@ -283,6 +287,7 @@ class NumberFormatter {
         }
       }
 
+      
       absValue = Math.abs(value);
       temp = prep.temp;
       numericPattern = prep.numericPattern;
