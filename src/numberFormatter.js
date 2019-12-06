@@ -117,7 +117,7 @@ function createRegExp(thousand, decimal) {
 const DefaultSIprefixes = {
     3 : "k",
     6 : "M",
-    9 : "B",
+    9 : "G",
     12 : "T",
     15 : "P",
     18 : "E",
@@ -146,18 +146,18 @@ const DefaultSIprefixes = {
     if (!localeInfo || !localeInfo.qNumericalAbbreviation) {
       return  DefaultSIprefixes;
     }
-  
-    const abbreviations = {};
-    const abbrs = localeInfo.qNumericalAbbreviation.split(';');
-  
-    abbrs.forEach(abbreviation => {
-      const abbreviationTuple = abbreviation.split(':');
-      if (abbreviationTuple.length === 2) {
-        abbreviations[abbreviationTuple[0]] = abbreviationTuple[1];
-      }
-    });
-  
-    return abbreviations;
+    else {
+      const abbreviations = {};
+      const abbrs = localeInfo.qNumericalAbbreviation.split(';');
+      abbrs.forEach(abbreviation => {
+        const abbreviationTuple = abbreviation.split(':');
+        if (abbreviationTuple.length === 2) {
+          abbreviations[abbreviationTuple[0]] = abbreviationTuple[1];
+        }
+      });
+      return abbreviations;
+    }
+
   }
 class NumberFormatter {
   constructor(localeInfo, pattern, thousand, decimal, type) {
@@ -173,7 +173,6 @@ class NumberFormatter {
   clone() {
     var n = new NumberFormatter(this.localeInfo, this.pattern, this.thousandDelimiter, this.decimalDelimiter, this.type);
     return n.subtype = this.subtype,
-
     n;
   }
 
@@ -228,6 +227,7 @@ class NumberFormatter {
       }
 
       if (prep.abbreviate) {
+        abbr = getAbbreviations(this.localeInfo);
         const abbreviations = this.abbreviations;
         const abbrArray = Object.keys(abbreviations)
           .map(key => {
@@ -274,7 +274,7 @@ class NumberFormatter {
         }
 
         if (suggestedAbbrExponent) {
-          abbr = abbreviations[suggestedAbbrExponent];
+          abbr = abbr[suggestedAbbrExponent];
           value /= Math.pow(10, suggestedAbbrExponent);
         }
       }
@@ -358,7 +358,7 @@ class NumberFormatter {
         value = `-${value}`;
       }
     }
-    
+
 
     return prep.prefix + value + sciValue + abbr + prep.postfix;
   }
