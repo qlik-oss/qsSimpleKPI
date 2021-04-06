@@ -5,6 +5,7 @@ import { DIVIDE_BY, SIZE_OPTIONS, DEFAULT_SIZE, FONT_SIZE_OPTIONS, getSizeIndex 
 import DimensionEntry from './dimensionEntry.container';
 import StatisticItem from './statisticItem';
 import ATTRIBUTES from './definitionAttributes';
+import dompurify from "dompurify";
 
 const checkRequiredSizeDelay = 1;
 const readyDelay = 10;
@@ -428,7 +429,7 @@ class StatisticBlock extends Component {
     }
 
     return (
-      <InlineCSS namespace={`css-${qId}`} stylesheet={styles} style={{ height: "100%" }}>
+      <InlineCSS namespace={`css-${qId}`} stylesheet={dompurify.sanitize(styles)} style={{ height: "100%" }}>
         <div className={`qv-object-qsstatistic ${this.props.services.State.isInEditMode() ? 'edit-mode' : ''}`} style={objectStyle}>
           {items}
         </div>
