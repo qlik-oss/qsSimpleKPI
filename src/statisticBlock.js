@@ -427,8 +427,25 @@ class StatisticBlock extends Component {
       objectStyle.visibility = 'hidden';
     }
 
+    const encodeForHTML = (input) => {
+      if (typeof input === "undefined" || input === null) {
+        return "";
+      }
+      let encodingDiv;
+      // no need to create a new div fore every encoding.
+      if (typeof document !== "undefined") {
+        encodingDiv = document.createElement("div");
+      }
+      let encoded = "";
+      const textNode = document.createTextNode(input);
+      encodingDiv.appendChild(textNode);
+      encoded = encodingDiv.innerHTML;
+      encodingDiv.removeChild(textNode);
+      return encoded;
+    };
+
     return (
-      <InlineCSS namespace={`css-${qId}`} stylesheet={styles} style={{ height: "100%" }}>
+      <InlineCSS namespace={`css-${qId}`} stylesheet={encodeForHTML(styles)} style={{ height: "100%" }}>
         <div className={`qv-object-qsstatistic ${this.props.services.State.isInEditMode() ? 'edit-mode' : ''}`} style={objectStyle}>
           {items}
         </div>
