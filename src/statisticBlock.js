@@ -5,6 +5,7 @@ import { DIVIDE_BY, SIZE_OPTIONS, DEFAULT_SIZE, FONT_SIZE_OPTIONS, getSizeIndex 
 import DimensionEntry from './dimensionEntry.container';
 import StatisticItem from './statisticItem';
 import ATTRIBUTES from './definitionAttributes';
+import encodeForHTML from './encoder';
 
 const checkRequiredSizeDelay = 1;
 const readyDelay = 10;
@@ -426,23 +427,6 @@ class StatisticBlock extends Component {
     if(!this.state.is_show) {
       objectStyle.visibility = 'hidden';
     }
-
-    const encodeForHTML = (input) => {
-      if (typeof input === "undefined" || input === null) {
-        return "";
-      }
-      let encodingDiv;
-      // no need to create a new div fore every encoding.
-      if (typeof document !== "undefined") {
-        encodingDiv = document.createElement("div");
-      }
-      let encoded = "";
-      const textNode = document.createTextNode(input);
-      encodingDiv.appendChild(textNode);
-      encoded = encodingDiv.innerHTML;
-      encodingDiv.removeChild(textNode);
-      return encoded;
-    };
 
     return (
       <InlineCSS namespace={`css-${qId}`} stylesheet={encodeForHTML(styles)} style={{ height: "100%" }}>
