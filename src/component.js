@@ -51,7 +51,7 @@ define(dependencies,
       global.React = React;
 
     let initialProperties = require('./initialProperties');
-    let definition = require('./definition')({ ShowService });
+    let definition = require('./definition')({ qlik, ShowService });
     let { paint, beforeDestroy } = require('./paint')({ qlik, DragDropService, LoadedPromise });
 
     return {
