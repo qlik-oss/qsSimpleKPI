@@ -46,7 +46,7 @@ jobs:
           at: ~/qlik-multi-kpi
       - run:
           name: Install dependencies
-          command: npm install
+          command: npm install --legacy-peer-deps
       - run:
           name: Build and package
           command: |
