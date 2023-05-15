@@ -16,7 +16,8 @@ jobs:
     docker:
       - image: cimg/node:lts-browsers
     steps:
-      - browser-tools/install-browser-tools
+      - browser-tools/install-chrome
+      - browser-tools/install-chromedriver
       - checkout
       - run:
           name: Install dependencies
