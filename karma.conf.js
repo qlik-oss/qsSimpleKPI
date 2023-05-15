@@ -1,6 +1,6 @@
 module.exports = (config) => {
   config.set({
-    browsers: ["SlimChrome"],
+    browsers: ["Chrome"],
     customLaunchers: {
       SlimChrome: {
         base: "Chrome",
