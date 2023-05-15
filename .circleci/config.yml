@@ -1,4 +1,4 @@
-version: 2
+version: '2.1'
 
 defaults: &defaults
   working_directory: ~/qlik-multi-kpi
@@ -11,7 +11,6 @@ defaults: &defaults
 
 orbs:
   browser-tools: circleci/browser-tools@1.1.0
-
 jobs:
   test:
     docker:
