@@ -27,10 +27,10 @@
     "@babel/preset-env": "7.1.0",
     "autoprefixer": "6.3.7",
     "autoprefixer-loader": "3.2.0",
-    "babel": "5.8.38",
-    "babel-core": "5.8.38",
+    "babel": "6.23.0",
+    "babel-core": "6.26.3",
     "babel-eslint": "10.0.1",
-    "babel-loader": "5.4.2",
+    "babel-loader": "9.1.2",
     "better-console": "0.2.4",
     "css-loader": "0.15.6",
     "del": "2.0.2",
@@ -44,7 +44,7 @@
     "file-loader": "0.8.4",
     "gulp": "4.0.0",
     "gulp-cssnano": "2.1.2",
-    "gulp-less": "3.0.3",
+    "gulp-less": "3.5.0",
     "gulp-purifycss": "0.2.0",
     "gulp-util": "^3.0.7",
     "gulp-zip": "3.0.2",
@@ -70,6 +70,6 @@
     "style-loader": "0.12.3",
     "url-loader": "0.5.7",
     "webpack": "1.11.0",
-    "yamljs": "0.2.3"
+    "yamljs": "0.2.10"
   }
 }
