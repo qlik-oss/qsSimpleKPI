@@ -20,7 +20,7 @@ jobs:
           command: npm install --legacy-peer-deps
       - run:
           name: Run tests
-          command: npm run test-once
+          command: CHROME_BIN=/usr/bin/google-chrome npm run test-once
 
   bump-version:
     <<: *defaults
