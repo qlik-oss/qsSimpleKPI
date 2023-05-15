@@ -9,18 +9,22 @@ defaults: &defaults
     GITHUB_REPO: "qsSimpleKPI"
     PACKAGE_NAME: "qlik-multi-kpi"
 
+orbs:
+  browser-tools: circleci/browser-tools@1.1.0
+
 jobs:
   test:
     docker:
       - image: cimg/node:lts-browsers
     steps:
+      - browser-tools/install-browser-tools
       - checkout
       - run:
           name: Install dependencies
           command: npm install --legacy-peer-deps
       - run:
           name: Run tests
-          command: CHROME_BIN=/usr/bin/google-chrome npm run test-once
+          command: npm run test-once
 
   bump-version:
     <<: *defaults
