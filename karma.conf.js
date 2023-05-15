@@ -1,24 +1,27 @@
 module.exports = (config) => {
   config.set({
-    browsers: ['SlimChromeHeadless'],
+    browsers: ["Chrome"],
     customLaunchers: {
-      SlimChromeHeadless: {
-        base: 'ChromeHeadless',
-        flags: ['--headless', '--disable-gpu', '--disable-translate', '--disable-extensions']
-      }
+      SlimChrome: {
+        base: "Chrome",
+        flags: [
+          "--headless",
+          "--disable-gpu",
+          "--disable-translate",
+          "--disable-extensions",
+        ],
+      },
     },
-    files: [
-      { pattern: 'src/*.spec.js', watched: false }
-    ],
-    frameworks: ['jasmine'],
+    files: [{ pattern: "src/*.spec.js", watched: false }],
+    frameworks: ["jasmine"],
     preprocessors: {
-      'src/*.spec.js': ['webpack', 'sourcemap']
+      "src/*.spec.js": ["webpack", "sourcemap"],
     },
     webpack: {
-      devtool: 'source-map',
+      devtool: "source-map",
       debug: true,
       resolve: {
-        modulesDirectories: ['node_modules', 'bower_components', 'test'],
+        modulesDirectories: ["node_modules", "bower_components", "test"],
       },
       module: {
         noParse: ["react"],
@@ -26,12 +29,12 @@ module.exports = (config) => {
           {
             test: /\.jsx?$/,
             exclude: [/node_modules/, /semantic/],
-            loaders: ['babel']
+            loaders: ["babel"],
           },
-          { test: /\.less$/, loader: 'ignore-loader' },
-          { test: /\.json$/, loader: 'ignore-loader' }
-        ]
-      }
-    }
+          { test: /\.less$/, loader: "ignore-loader" },
+          { test: /\.json$/, loader: "ignore-loader" },
+        ],
+      },
+    },
   });
 };
