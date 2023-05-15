@@ -12,7 +12,7 @@ defaults: &defaults
 jobs:
   test:
     docker:
-      - image: cimg/node:lts-browsers
+      - image: cimg/node:lts-node-browsers
     steps:
       - checkout
       - run:
