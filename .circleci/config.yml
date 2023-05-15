@@ -16,9 +16,9 @@ jobs:
     docker:
       - image: cimg/node:lts-browsers
     steps:
+      - checkout
       - browser-tools/install-chrome
       - browser-tools/install-chromedriver
-      - checkout
       - run:
           name: Install dependencies
           command: npm install --legacy-peer-deps
