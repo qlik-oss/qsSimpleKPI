@@ -41,7 +41,7 @@
     "expose-loader": "0.7.0",
     "extend": "3.0.0",
     "extract-text-webpack-plugin": "1.0.1",
-    "file-loader": "0.8.4",
+    "file-loader": "6.2.0",
     "gulp": "4.0.0",
     "gulp-cssnano": "2.1.2",
     "gulp-less": "3.0.3",
