@@ -42,7 +42,7 @@
     "extend": "3.0.0",
     "extract-text-webpack-plugin": "1.0.1",
     "file-loader": "0.8.4",
-    "gulp": "4.0.0",
+    "gulp": "5.0.0",
     "gulp-cssnano": "2.1.2",
     "gulp-less": "3.0.3",
     "gulp-purifycss": "0.2.0",
