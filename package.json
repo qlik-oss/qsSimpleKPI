@@ -47,7 +47,7 @@
     "gulp-less": "3.0.3",
     "gulp-purifycss": "0.2.0",
     "gulp-util": "^3.0.7",
-    "gulp-zip": "3.0.2",
+    "gulp-zip": "6.0.0",
     "ignore-loader": "0.1.2",
     "jasmine-core": "3.2.1",
     "karma": "6.4.1",
