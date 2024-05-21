@@ -2,28 +2,28 @@ import {
   FontStylesComponent,
   TextEditorComponent,
   SelectIconDialogComponent,
-  DetectChangesInComponent
-} from './definitionComponents';
+  DetectChangesInComponent,
+} from "./definitionComponents";
 
 import {
   SIZE_OPTIONS,
   DEFAULT_SIZE,
   DIM_LABEL_OPTIONS,
   DIM_VIEW_OPTIONS,
-  DIVIDE_BY_OPTIONS
-} from './options';
+  DIVIDE_BY_OPTIONS,
+} from "./options";
 
-import { FULL_ICONS_SET } from './iconsDefinitions';
-import ATTRIBUTES from './definitionAttributes';
+import { FULL_ICONS_SET } from "./iconsDefinitions";
+import ATTRIBUTES from "./definitionAttributes";
 
 export default function ({ ShowService }) {
-// let Dialog = options.Dialog;
+  // let Dialog = options.Dialog;
   //let ShowService = options.ShowService;
 
-  let data= {
+  let data = {
     uses: "data",
-    items:{
-      measures : {
+    items: {
+      measures: {
         disabledRef: "",
         items: {
           autoFormatTemplate: {
@@ -32,9 +32,9 @@ export default function ({ ShowService }) {
             translation: "properties.numberFormatting.formatPattern",
             ref: "qDef.autoFormatTemplate",
             defaultValue: "0A",
-            show: function(a) {
+            show: function (a) {
               return a.qDef.qNumFormat && a.qDef.qNumFormat.qType === "U";
-            }
+            },
           },
           labelColor: {
             type: "object",
@@ -42,27 +42,27 @@ export default function ({ ShowService }) {
             label: "Label color",
             component: "color-picker",
             dualOutput: true,
-            defaultValue: { index:14, color: "#000000" }
+            defaultValue: { index: 14, color: "#000000" },
           },
           itemConditionalColor: {
-            ref: 'qDef.conditionalValueColor',
-            type: 'boolean',
-            label: 'Conditional value color',
-            component: 'switch',
+            ref: "qDef.conditionalValueColor",
+            type: "boolean",
+            label: "Conditional value color",
+            component: "switch",
             defaultValue: false,
             options: [
               {
                 value: true,
-                label: 'On'
+                label: "On",
               },
               {
                 value: false,
-                label: 'Off'
-              }
+                label: "Off",
+              },
             ],
             show: function (a) {
-              return a.qLibraryId
-            }
+              return a.qLibraryId;
+            },
           },
           itemColor: {
             type: "object",
@@ -70,65 +70,67 @@ export default function ({ ShowService }) {
             label: "Value color",
             component: "color-picker",
             dualOutput: true,
-            defaultValue: { index:6, color: "#4477aa" },
+            defaultValue: { index: 6, color: "#4477aa" },
             show: function (a) {
-              return !a.qDef.conditionalValueColor
-            }
+              return !a.qDef.conditionalValueColor;
+            },
           },
-          linkToSheet : {
-            type : "items",
-            items : {
-              useLink : {
-                ref : "qDef.useLink",
-                type : "boolean",
-                component : "switch",
-                translation : "properties.kpi.linkToSheet",
-                defaultValue : !1,
-                options : [{
-                  value : !0,
-                  translation : "properties.on"
-                }, {
-                  value : !1,
-                  translation : "properties.off"
-                }
-                ]
+          linkToSheet: {
+            type: "items",
+            items: {
+              useLink: {
+                ref: "qDef.useLink",
+                type: "boolean",
+                component: "switch",
+                translation: "properties.kpi.linkToSheet",
+                defaultValue: !1,
+                options: [
+                  {
+                    value: !0,
+                    translation: "properties.on",
+                  },
+                  {
+                    value: !1,
+                    translation: "properties.off",
+                  },
+                ],
               },
               sheetLink: {
                 ref: "sheetLink", // 'sheet-dropdown' need it!!! See bellow.
                 type: "string",
                 // Non visible property, detect changes in "qDef.kpiLink". It needs because of 'sheet-dropdown' component.
-                component: DetectChangesInComponent('qDef.kpiLink'),
-                show : function (data) {
+                component: DetectChangesInComponent("qDef.kpiLink"),
+                show: function (data) {
                   return data.qDef.useLink;
-                }
+                },
               },
-              kpiLink : {
+              kpiLink: {
                 ref: "qDef.kpiLink",
-                type : "string",
-                component : 'sheet-dropdown',
-                show : function (data) {
+                type: "string",
+                component: "sheet-dropdown",
+                show: function (data) {
                   return data.qDef.useLink;
-                }
-              }
-            }
+                },
+              },
+            },
           },
           hideLabel: {
             type: "boolean",
             label: "Hide label",
             ref: "qDef.hideLabel",
-            defaultValue: false
+            defaultValue: false,
           },
           hideValue: {
             type: "boolean",
             label: "Hide value",
             ref: "qDef.hideValue",
-            defaultValue: false
+            defaultValue: false,
           },
           groupByDimension: {
             type: "boolean",
             label: "Group by dimension",
             ref: "qDef.groupByDimension",
-            defaultValue: false
+            defaultValue: false,
           },
           groupByDimensionValue: {
             type: "string",
@@ -136,51 +138,51 @@ export default function ({ ShowService }) {
             label: "Dimension Value",
             expression: "always",
             defaultValue: "",
-            show: function(a) {
+            show: function (a) {
               return a.qDef.groupByDimension;
-            }
+            },
           },
           overrideParams: {
             type: "boolean",
             label: "Override parameters",
             ref: "qDef.ovParams",
-            defaultValue: false
+            defaultValue: false,
           },
           overridedLabel: {
             type: "string",
             label: "Label",
             expression: "optional",
             ref: ATTRIBUTES.overridedLabel.ref,
-            translation : "Common.Label",
-            show: function(a) {
+            translation: "Common.Label",
+            show: function (a) {
               return a.qDef.ovParams;
             },
-          // change: function(obj) {
-          //   const isExpr = /^=/;
-          //   const isString = /^'(.+)'$/;
-          //   const value = obj.qAttributeExpressions[ATTRIBUTES.overridedLabel.index].qExpression;
-          //   if(!isExpr.exec(value) && !isString.exec(value)) {
-          //     obj.qAttributeExpressions[ ATTRIBUTES.overridedLabel.index] = `'${value}'`;
-          //   }
-          // },
+            // change: function(obj) {
+            //   const isExpr = /^=/;
+            //   const isString = /^'(.+)'$/;
+            //   const value = obj.qAttributeExpressions[ATTRIBUTES.overridedLabel.index].qExpression;
+            //   if(!isExpr.exec(value) && !isString.exec(value)) {
+            //     obj.qAttributeExpressions[ ATTRIBUTES.overridedLabel.index] = `'${value}'`;
+            //   }
+            // },
           },
           size: {
             type: "string",
             component: "dropdown",
             label: "Size",
             ref: "qDef.size",
-            options:
-          [...SIZE_OPTIONS,
-            {
-              value: DEFAULT_SIZE,
-              label: DEFAULT_SIZE,
-              tooltip: DEFAULT_SIZE
-            }
-          ],
+            options: [
+              ...SIZE_OPTIONS,
+              {
+                value: DEFAULT_SIZE,
+                label: DEFAULT_SIZE,
+                tooltip: DEFAULT_SIZE,
+              },
+            ],
             defaultValue: DEFAULT_SIZE,
-            show: function(a) {
+            show: function (a) {
               return a.qDef.ovParams;
-            }
+            },
           },
           labelOrientation: {
             type: "string",
@@ -191,18 +193,18 @@ export default function ({ ShowService }) {
               {
                 value: "horizontal",
                 label: "Horizontal",
-                tooltip: "Horizontal"
+                tooltip: "Horizontal",
               },
               {
                 value: "",
                 label: "Vertical",
-                tooltip: "Vertical"
-              }
+                tooltip: "Vertical",
+              },
             ],
             defaultValue: "",
-            show: function(a) {
+            show: function (a) {
               return a.qDef.ovParams && !a.qDef.hideLabel;
-            }
+            },
           },
           labelOrder: {
             type: "string",
@@ -213,18 +215,18 @@ export default function ({ ShowService }) {
               {
                 value: "first",
                 label: "Label, Value",
-                tooltip: "Label, Value"
+                tooltip: "Label, Value",
               },
               {
                 value: "last",
                 label: "Value, Label",
-                tooltip: "Value, Label"
-              }
+                tooltip: "Value, Label",
+              },
             ],
             defaultValue: "first",
-            show: function(a) {
+            show: function (a) {
               return a.qDef.ovParams && !a.qDef.hideLabel;
-            }
+            },
           },
           fontStyle: {
             type: "string",
@@ -232,16 +234,16 @@ export default function ({ ShowService }) {
             label: "Font style",
             expression: "always",
             defaultValue: "",
-            show: true
+            show: true,
           },
           pickFontStyle: {
             type: "string",
             component: FontStylesComponent,
             ref: "qDef.fontStyles",
             defaultValue: "",
-            show: function(a) {
+            show: function (a) {
               return typeof a.qDef.fontStyles !== "object";
-            }
+            },
           },
           textAlignment: {
             type: "string",
@@ -249,26 +251,26 @@ export default function ({ ShowService }) {
             icon: true,
             horizontal: true,
             label: "Alignment",
-            translation : "properties.Alignment",
+            translation: "properties.Alignment",
             ref: "qDef.textAlignment",
             defaultValue: "center",
-            items : [
+            items: [
               {
                 value: "flex-start",
-                component : "icon-item",
-                icon:"align_left"
+                component: "icon-item",
+                icon: "align_left",
               },
               {
                 value: "center",
-                icon:"align_center",
-                component : "icon-item"
+                icon: "align_center",
+                component: "icon-item",
               },
               {
                 value: "flex-end",
-                icon:"align_right",
-                component : "icon-item"
-              }
-            ]
+                icon: "align_right",
+                component: "icon-item",
+              },
+            ],
           },
           itemIcon: {
             type: "string",
@@ -276,14 +278,14 @@ export default function ({ ShowService }) {
             label: "Icon",
             expression: "always",
             defaultValue: "",
-            show: true
+            show: true,
           },
           pickItemIcon: {
             type: "string",
             component: SelectIconDialogComponent(ShowService), //IconsPickerComponent,
             ref: "qDef.valueIcon",
             defaultValue: "",
-            options: FULL_ICONS_SET
+            options: FULL_ICONS_SET,
           },
           iconPosition: {
             type: "string",
@@ -294,18 +296,18 @@ export default function ({ ShowService }) {
               {
                 value: "value",
                 label: "Value",
-                tooltip: "Value"
+                tooltip: "Value",
               },
               {
                 value: "label",
                 label: "Label",
-                tooltip: "Label"
-              }
+                tooltip: "Label",
+              },
             ],
             defaultValue: "label",
-            show : function (a) {
+            show: function (a) {
               return a.qDef.valueIcon;
-            }
+            },
           },
           iconOrder: {
             type: "string",
@@ -316,35 +318,35 @@ export default function ({ ShowService }) {
               {
                 value: "first",
                 label: "Icon, Value",
-                tooltip: "Icon, Value"
+                tooltip: "Icon, Value",
               },
               {
                 value: "last",
                 label: "Value, Icon",
-                tooltip: "Value, Icon"
-              }
+                tooltip: "Value, Icon",
+              },
             ],
             defaultValue: "first",
-            show : function (a) {
+            show: function (a) {
               return a.qDef.valueIcon;
-            }
+            },
           },
           iconSize: {
             type: "string",
             component: "dropdown",
             label: "Icon size",
             ref: "qDef.iconSize",
-            show: function(a) {
+            show: function (a) {
               return a.qDef.valueIcon;
             },
             options: SIZE_OPTIONS,
-            defaultValue: ""
+            defaultValue: "",
           },
           infographicMode: {
             type: "boolean",
             label: "Infographic mode",
             ref: "qDef.infographic",
-            defaultValue: false
+            defaultValue: false,
           },
           embeddedItem: {
             type: "string",
@@ -354,14 +356,14 @@ export default function ({ ShowService }) {
             //expressionType : "measure",
             expression: "always",
             defaultValue: "",
-            show: true
-          }
-        }
+            show: true,
+          },
+        },
       },
       dimensions: {
-        disabledRef: ""
-      }
-    }
+        disabledRef: "",
+      },
+    },
   };
 
   // Additional settings
@@ -380,7 +382,7 @@ export default function ({ ShowService }) {
             label: "Show as",
             ref: "options.dimShowAs",
             options: DIM_VIEW_OPTIONS,
-            defaultValue: "segment"
+            defaultValue: "segment",
           },
           divideBy: {
             type: "string",
@@ -388,78 +390,78 @@ export default function ({ ShowService }) {
             label: "Items per row",
             ref: "options.dimDivideBy",
             defaultValue: "auto",
-            show: function(a) {
-              return a.options.dimShowAs === 'card';
+            show: function (a) {
+              return a.options.dimShowAs === "card";
             },
             options: [
               {
                 value: "auto",
                 label: "Auto",
-                tooltip: "Auto"
+                tooltip: "Auto",
               },
               {
                 value: "one",
                 label: "1",
-                tooltip: "One"
+                tooltip: "One",
               },
               {
                 value: "two",
                 label: "2",
-                tooltip: "Two"
+                tooltip: "Two",
               },
               {
                 value: "three",
                 label: "3",
-                tooltip: "Three"
+                tooltip: "Three",
               },
               {
                 value: "four",
                 label: "4",
-                tooltip: "Four"
+                tooltip: "Four",
               },
               {
                 value: "five",
                 label: "5",
-                tooltip: "Four"
+                tooltip: "Four",
               },
               {
                 value: "six",
                 label: "6",
-                tooltip: "Six"
+                tooltip: "Six",
               },
               {
                 value: "seven",
                 label: "7",
-                tooltip: "Seven"
+                tooltip: "Seven",
               },
               {
                 value: "eight",
                 label: "8",
-                tooltip: "Eight"
+                tooltip: "Eight",
               },
-            ]
+            ],
           },
           dimensionsOrientation: {
             type: "string",
             component: "buttongroup",
             label: "Orientation",
             ref: "options.dimensionsOrientation",
-            show: function(a) {
-              return a.options.dimShowAs === 'segment';
+            show: function (a) {
+              return a.options.dimShowAs === "segment";
             },
             options: [
               {
                 value: "horizontal",
                 label: "Horizontal",
-                tooltip: "Horizontal"
+                tooltip: "Horizontal",
               },
               {
                 value: "vertical",
                 label: "Vertical",
-                tooltip: "Vertical"
-              }
+                tooltip: "Vertical",
+              },
             ],
-            defaultValue: "horizontal"
+            defaultValue: "horizontal",
           },
           labelOrientation: {
             type: "string",
@@ -467,7 +469,7 @@ export default function ({ ShowService }) {
             label: "Labels",
             ref: "options.dimLabelOrientation",
             options: DIM_LABEL_OPTIONS,
-            defaultValue: "top attached"
+            defaultValue: "top attached",
           },
           labelSize: {
             type: "string",
@@ -475,39 +477,39 @@ export default function ({ ShowService }) {
             label: "Size",
             ref: "options.dimLabelSize",
             options: SIZE_OPTIONS,
-            defaultValue: ""
+            defaultValue: "",
           },
           hideLabel: {
             type: "boolean",
             label: "Hide labels",
             ref: "options.dimHideLabels",
-            defaultValue: false
+            defaultValue: false,
           },
           centeredLabel: {
             type: "boolean",
             label: "Center aligned labels",
             ref: "options.dimCenteredLabels",
-            defaultValue: true
+            defaultValue: true,
           },
           hideBorders: {
             type: "boolean",
             label: "Hide external borders",
             ref: "options.dimHideBorders",
             defaultValue: false,
-          // show: function(a) {
-          //   return a.options.dimShowAs === 'segment'
-          // },
+            // show: function(a) {
+            //   return a.options.dimShowAs === 'segment'
+            // },
           },
           hideInternalBorders: {
             type: "boolean",
             label: "Hide internal borders",
             ref: "options.dimHideInternalBorders",
             defaultValue: false,
-            show: function(a) {
-              return a.options.dimShowAs === 'segment';
+            show: function (a) {
+              return a.options.dimShowAs === "segment";
             },
-          }
-        }
+          },
+        },
       },
       measuresOptions: {
         type: "items",
@@ -523,15 +525,15 @@ export default function ({ ShowService }) {
               {
                 value: "horizontal",
                 label: "Horizontal",
-                tooltip: "Horizontal"
+                tooltip: "Horizontal",
               },
               {
                 value: "",
                 label: "Vertical",
-                tooltip: "Vertical"
-              }
+                tooltip: "Vertical",
+              },
             ],
-            defaultValue: ""
+            defaultValue: "",
           },
 
           labelOrder: {
@@ -543,15 +545,15 @@ export default function ({ ShowService }) {
               {
                 value: "first",
                 label: "Label, Value",
-                tooltip: "Label, Value"
+                tooltip: "Label, Value",
               },
               {
                 value: "last",
                 label: "Value, Label",
-                tooltip: "Value, Label"
-              }
+                tooltip: "Value, Label",
+              },
             ],
-            defaultValue: "first"
+            defaultValue: "first",
           },
 
           size: {
@@ -560,7 +562,7 @@ export default function ({ ShowService }) {
             label: "Size",
             ref: "options.size",
             options: SIZE_OPTIONS,
-            defaultValue: "normal"
+            defaultValue: "normal",
           },
 
           divideBy: {
@@ -569,9 +571,25 @@ export default function ({ ShowService }) {
             label: "Items per row",
             ref: "options.divideBy",
             defaultValue: "one",
-            options: DIVIDE_BY_OPTIONS
-          }
-        }
+            options: DIVIDE_BY_OPTIONS,
+          },
+        },
+      },
+      presentation: {
+        type: "items",
+        grouped: false,
+        translation: "properties.presentation",
+        items: {
+          styleEditor: {
+            component: "styling-panel",
+            chartTitle: "Multi KPI",
+            translation: "LayerStyleEditor.component.styling",
+            subtitle: "LayerStyleEditor.component.styling",
+            ref: "components",
+            useGeneral: true,
+            useBackground: true,
+          },
+        },
       },
       stylingOptions: {
         type: "items",
@@ -584,9 +602,10 @@ export default function ({ ShowService }) {
             ref: "options.backgroundColor",
             type: "object",
             dualOutput: true,
-            defaultValue:{
-              index: 0 , color: "#ffffff"
-            }
+            defaultValue: {
+              index: 0,
+              color: "#ffffff",
+            },
           },
           iconSize: {
             type: "string",
@@ -596,91 +615,92 @@ export default function ({ ShowService }) {
             options: [
               {
                 value: "top-aligned-items",
-                label: "Top aligned"
+                label: "Top aligned",
               },
               {
                 value: "bottom-aligned-items",
-                label: "Bottom aligned"
+                label: "Bottom aligned",
               },
               {
                 value: "center-aligned-items",
-                label: "Center aligned"
+                label: "Center aligned",
               },
               {
                 value: "stretched-items",
-                label: "Stretched"
+                label: "Stretched",
               },
             ],
-            defaultValue: "center-aligned-items"
+            defaultValue: "center-aligned-items",
           },
           styles: {
             type: "string",
             component: TextEditorComponent,
             label: "Styles (CSS)",
             ref: "options.styles",
-            defaultValue: ""
-          }
-        }
-      }
-    }
+            defaultValue: "",
+          },
+        },
+      },
+    },
   };
 
   let dataHandling = {
     type: "items",
-    translation : "properties.dataHandling",
+    translation: "properties.dataHandling",
     grouped: true,
     items: {
       calcCond: {
         type: "items",
-        translation : "properties.hyperCube.calcCond",
+        translation: "properties.hyperCube.calcCond",
         items: {
           expr: {
             ref: "qHyperCubeDef.qCalcCond",
             type: "string",
-            component : "expression",
-            expressionType : "ValueExpr",
+            component: "expression",
+            expressionType: "ValueExpr",
             label: "Calculation condition",
-            translation : "properties.hyperCube.calcCond"
+            translation: "properties.hyperCube.calcCond",
           },
-          customErrorMessage : {
-            ref : "qHyperCubeDef.customErrorMessage.calcCond",
-            component : "textarea",
-            defaultValue : "",
-            type : "string",
-            placeholderTranslation : "Object.ErrorMessage.CalculationCondition",
-            translation : "properties.hyperCube.calcCondMessage",
-            show : function (data) {
+          customErrorMessage: {
+            ref: "qHyperCubeDef.customErrorMessage.calcCond",
+            component: "textarea",
+            defaultValue: "",
+            type: "string",
+            placeholderTranslation: "Object.ErrorMessage.CalculationCondition",
+            translation: "properties.hyperCube.calcCondMessage",
+            show: function (data) {
               var cond = data.qHyperCubeDef && data.qHyperCubeDef.qCalcCond;
               return cond && cond.qv && "" !== cond.qv;
-            }
-          }
-        }
-      }
-    }
+            },
+          },
+        },
+      },
+    },
   };
 
   let sorting = {
-    uses: "sorting"
+    uses: "sorting",
   };
 
   var aboutDefinition = {
-    component: 'items',
-    label: 'About',
+    component: "items",
+    label: "About",
     items: {
       header: {
-        label: 'Multi KPI',
-        style: 'header',
-        component: 'text'
+        label: "Multi KPI",
+        style: "header",
+        component: "text",
       },
       paragraph1: {
         label: `Multi KPI is a visualization that allows you to show multiple KPI values for different dimension values.`,
-        component: 'text'
+        component: "text",
       },
       paragraph2: {
-        label: 'Multi KPI is based upon an extension created by Alexander Nerush.',
-        component: 'text'
-      }
-    }
+        label:
+          "Multi KPI is based upon an extension created by Alexander Nerush.",
+        component: "text",
+      },
+    },
   };
 
   return {
@@ -690,7 +710,7 @@ export default function ({ ShowService }) {
       data,
       sorting,
       settings,
-      aboutDefinition
-    }
+      aboutDefinition,
+    },
   };
 }
