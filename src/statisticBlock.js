@@ -407,9 +407,13 @@ class StatisticBlock extends Component {
           </div>
         );
       } else {
+        const style = {
+          marginTop: verticalAlign === 'top-aligned-items' || verticalAlign === 'stretched-items' ? 0 : 'auto',
+          marginBottom: verticalAlign === 'bottom-aligned-items' || verticalAlign === 'stretched-items' ? 0 : 'auto',
+        };
         items = (
           <div className={`${verticalAlign}`}>
-            <div ref="statistics" className={`ui ${divideBy} statistics`}>
+            <div ref="statistics" className={`ui ${divideBy} statistics`} style={style}>
               {self.renderKpis(kpis, 0, divideByNumber)}
             </div>
           </div>);
