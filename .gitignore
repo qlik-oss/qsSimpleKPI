@@ -7,3 +7,4 @@ BUMPED_VERSION
 *.map
 *.log
 yarn.lock
+.DS_Store
