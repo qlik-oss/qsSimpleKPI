@@ -1,3 +1,6 @@
+# Deprecated
+This extension is no longer maintained by Qlik and it is no longer part of the bundle.
+
 # Simple KPI
 This extension is part of the extension bundles for Qlik Sense. The repository is maintained and moderated by Qlik RD.
 
